@@ -1,25 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
 function App() {
+  const [items, setItems] = useState([]);
+
+  function addItem(item) {
+    setItems([...items, item]);
+  }
+
+  function removeItem(index) {
+    const newItems = [...items];
+    newItems.splice(index, 1);
+    setItems(newItems);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <AddItem onAddItem={addItem} />
+      <ul>
+        {items.map((item, index) => (
+          <Item key={index} item={item} onRemove={() => removeItem(index)} />
+        ))}
+      </ul>
     </div>
   );
 }
+
+function AddItem({ onAddItem }) {
+  const [inputValue, setInputValue] = useState('');
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (inputValue.trim() !== '') {
+      onAddItem(inputValue);
+      setInputValue('');
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
+      />
+      <button type="submit">追加</button>
+    </form>
+  );
+}
+
+function Item({ item, onRemove }) {
+  return (
+    <li>
+      {item}
+      <button onClick={onRemove}>×</button>
+    </li>
+  );
+}
+
+
+
 
 export default App;

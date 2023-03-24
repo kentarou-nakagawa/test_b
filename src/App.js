@@ -48,15 +48,23 @@ function AddItem({ onAddItem }) {
   );
 }
 
+// function Item({ item, onRemove }) {
+//   return (
+//     <li>
+//       {item}
+//       <button onClick={onRemove}>×</button>
+//     </li>
+//   );
+// }
+
 function Item({ item, onRemove }) {
   return (
-    <li>
-      {item}
+    <li style={{ display: "flex", alignItems: "center" }}>
       <button onClick={onRemove}>×</button>
+      <span>{item}</span>
     </li>
   );
 }
-
 
 
 
